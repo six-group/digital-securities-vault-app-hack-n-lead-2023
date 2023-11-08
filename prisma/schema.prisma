@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Deposit {
+  id               String  @id
+  sender           String
+  tokenAddress     String
+  initiatorAddress String
+  receiverId       String // used to define who gets credited (could be a relation but seemed unnecessary)
+  amount           String
+  submitTx         String?
+  confirmTx        String?
+  cancelTx         String?
+}
+
+model Withdrawal {
+  id                String  @id
+  initiatorId       String // used to update balances (could be a relation but seemed unnecessary)
+  initiatorAddress  String
+  tokenAddress      String
+  withdrawalAddress String
+  amount            String
+  submitTx          String?
+  confirmTx         String?
+  cancelTx          String?
+}
+
+model Member {
+  id             String    @id @default(cuid())
+  name           String
+  organisation   String
+  onchainAddress String
+  isOperator     Boolean   @default(false)
+  Balance        Balance[]
+}
+
+model Balance {
+  id           String @id @default(uuid())
+  member       Member @relation(fields: [memberId], references: [id])
+  memberId     String
+  tokenAddress String
+  tokenTicker  String
+  total        String
+  locked       String
+}
