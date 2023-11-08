@@ -1,4 +1,4 @@
-# Digital Securities Vault
+# Digital Securities Vault App
 
 This is a Web3 app, designed to connect to the Digital Securities Vault smart contract.
 
